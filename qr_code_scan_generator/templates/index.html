@@ -56,7 +56,11 @@
                     {% if qr_code_url %}
                         <div style="text-align: center;">
                             <img src="{{ qr_code_url }}" alt="QR Code" style="width: 200px; height: 200px;" />
-                            <a href="{{ qr_code_url }}" download="qrcode.png" class="button" style="margin-top: 10px;">Save Image</a>
+                            <a href="{{ qr_code_url }}" download="qrcode.png"
+                               class="button"
+                               style="margin-top: 10px; display: block; width: max-content; margin-left: auto; margin-right: auto;">
+                               Save Image
+                            </a>
                         </div>
                         <script>window.location.hash = "#generate";</script>
                     {% endif %}
