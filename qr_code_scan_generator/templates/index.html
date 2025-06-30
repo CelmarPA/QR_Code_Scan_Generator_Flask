@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Master</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/static/assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="/static/assets/css/noscript.css" /></noscript>
+</head>
+<body class="is-preload">
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <div class="logo"><span class="fa fa-qrcode"></span></div>
+            <div class="content">
+                <div class="inner">
+                    <h1>QR Master</h1>
+                    <p>Generate and scan QR codes with ease.</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#intro">Intro</a></li>
+                    <li><a href="#generate">Generate</a></li>
+                    <li><a href="#scan">Scan</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Main -->
+        <div id="main">
+
+            <!-- Intro -->
+            <article id="intro">
+                <h2 class="major">Intro</h2>
+                <span class="image main"><img src="static/images/pic01.jpg" alt="" /></span>
+                <p>Welcome to QR Master — your all-in-one solution to generate and scan QR codes effortlessly. Whether you need to create custom codes for your business or quickly decode information on the go, we've got you covered. Our tool is fast, reliable, and easy to use.</p>
+                <p>Explore the features, try out our generator, or scan codes directly from your device. For a quick start, check out our <a href="#">awesome features</a> and see how QR Master can simplify your digital needs.</p>
+
+            </article>
+
+            <!-- Generate QR Code -->
+            <article id="generate">
+                <h2 class="major">QR Generate</h2>
+                <form method="POST" action="/generate" class="text-box">
+                    <label for="qr-input">Enter text or URL:</label>
+                    <input type="text" id="qr-input" name="qr_text" placeholder="Type something here..." required>
+                    <button type="submit" id="generate-btn">Generate</button>
+                </form>
+
+                <div class="text-content" id="qr-display">
+                    {% if qr_code_url %}
+                        <div style="text-align: center;">
+                            <img src="{{ qr_code_url }}" alt="QR Code" style="width: 200px; height: 200px;" />
+                            <a href="{{ qr_code_url }}" download="qrcode.png" class="button" style="margin-top: 10px;">Save Image</a>
+                        </div>
+                        <script>window.location.hash = "#generate";</script>
+                    {% endif %}
+                </div>
+            </article>
+
+            <!-- Scan QR Code -->
+            <article id="scan">
+                <h2 class="major">Scan Image</h2>
+                <form method="POST" action="/scan" enctype="multipart/form-data" class="text-box">
+                    <label for="image-upload">Upload an image:</label>
+                    <input type="file" id="image-upload" name="image" accept="image/*" required>
+
+                    <img id="preview-image" style="max-width: 300px; margin: 10px auto; display: none;" />
+
+                    <button type="submit" id="scan-btn">Scan</button>
+                </form>
+
+                <div class="text-content" id="scan-result">
+                    {% if scan_result %}
+                        <p><strong>Scan Result:</strong> {{ scan_result }}</p>
+                        {% if scan_image_url %}
+                            <img src="{{ scan_image_url }}" alt="Scanned Image" style="max-width: 300px;" />
+                        {% endif %}
+                        <script>window.location.hash = "#scan";</script>
+                    {% endif %}
+                </div>
+            </article>
+
+            <!-- Contact -->
+            <article id="contact">
+                <h2 class="major">Contact</h2>
+				{% with messages = get_flashed_messages() %}
+				  {% if messages %}
+					  {% for msg in messages %}
+						<p>{{ msg }}</p>
+					  {% endfor %}
+				  {% endif %}
+				{% endwith %}
+                <form method="post" action="{{ url_for('send_message') }}">
+                    <div class="fields">
+                        <div class="field half">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" id="name" />
+                        </div>
+                        <div class="field half">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" id="email" />
+                        </div>
+						<div class="field full">
+                            <label for="subject">Subject</label>
+                            <input type="text" name="subject" id="subject" />
+                        </div>
+                        <div class="field">
+                            <label for="message">Message</label>
+                            <textarea name="message" id="message" rows="4"></textarea>
+                        </div>
+                    </div>
+                    <ul class="actions">
+                        <li><input type="submit" value="Send Message" class="primary" /></li>
+                        <li><input type="reset" value="Reset" /></li>
+                    </ul>
+                </form>
+                <ul class="icons">
+                    <li><a href="https://x.com/andrade_celmar" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
+					<li><a href="https://www.facebook.com/celmar.pereiradeandrade" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
+					<li><a href="https://linkedin.com/in/celmar-pereira-de-andrade-039830181" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+					<li><a href="https://www.instagram.com/celmarpereiradeandrade/" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
+					<li><a href="https://github.com/CelmarPA" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+                </ul>
+            </article>
+        </div>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <p>Copyright© {{ year }}. QR Master. Built with HTML5 UP template.</p>
+        </footer>
+    </div>
+
+    <!-- Background -->
+    <div id="bg"></div>
+
+    <!-- Scripts -->
+    <script src="/static/assets/js/jquery.min.js"></script>
+    <script src="/static/assets/js/browser.min.js"></script>
+    <script src="/static/assets/js/breakpoints.min.js"></script>
+    <script src="/static/assets/js/util.js"></script>
+    <script src="/static/assets/js/main.js"></script>
+    <script>
+        // Preview image before scanning
+        document.getElementById('image-upload')?.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('preview-image');
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '';
+                preview.style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+</html>
